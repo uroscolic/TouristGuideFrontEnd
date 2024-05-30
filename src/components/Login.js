@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../utils/api'; // importuj axios instancu
-import '../login.css';
+import api from '../utils/api';
+import '../form.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // Dodaj stanje za grešku
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,11 +15,10 @@ const Login = () => {
     try {
       const response = await api.post('/api/users/login', { email, password });
 
-      // Sačuvaj token u localStorage
-      //localStorage.setItem('token', response.data.token);
-        console.log(response.data);
-      // Preusmeri na dashboard
-      navigate('/dashboard');
+
+      localStorage.setItem('jwt', response.data.jwt);
+      console.log(response.data);
+      navigate('/destinations');
     } catch (error) {
       setError('Invalid email or password!');
       setEmail('');
@@ -28,9 +27,9 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container"> {/* Dodaj klasu za kontejner */}
+    <div className="form-container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="login-form"> {/* Dodaj klasu za formu */}
+      <form onSubmit={handleSubmit} className="form-form">
         <input
           type="email"
           placeholder="Email"
@@ -44,7 +43,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
-        {error && <p className="error-message">{error}</p>} {/* Dodaj klasu za poruku o grešci */}
+        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

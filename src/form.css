@@ -1,4 +1,4 @@
-.login-container {
+.form-container {
     width: 100%;
     max-width: 400px;
     margin: auto;
@@ -12,12 +12,12 @@
     align-items: center;
 }
 
-.login-form {
+.form-form {
     width: 100%;
     max-width: 300px;
 }
 
-.login-form input, .login-form button {
+.form-form input, .form-form button{
     width: 100%;
     padding: 12px; /* Adjust padding to match the button */
     margin-bottom: 20px;
@@ -25,7 +25,7 @@
     border-radius: 4px;
 }
 
-.login-form button {
+.form-form button {
     background-color: #447ab4;
     color: #ffffff;
     border: none;
@@ -33,10 +33,17 @@
     transition: background-color 0.3s ease;
 }
 
-.login-form button:hover {
+.form-form button:hover {
     background-color: #0056b3;
 }
-
+.form-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* Allow vertical resizing */
+}
 .error-message {
     color: #a11d2a;
     font-size: 14px;
