@@ -17,6 +17,10 @@ const Login = () => {
 
 
       localStorage.setItem('jwt', response.data.jwt);
+      localStorage.setItem('userType', response.data.userType); 
+      localStorage.setItem('name', response.data.name);
+
+
       console.log(response.data);
       navigate('/destinations');
     } catch (error) {

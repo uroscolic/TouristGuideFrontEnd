@@ -95,7 +95,7 @@ const Users = () => {
                 <td>{user.userType}</td>
                 <td>
                     <button onClick={() => handleEdit(user.email)}>Edit</button>
-                    <button onClick={() => handleActivate(user.email)}>{user.active ? "Deactivate" : "Activate"}</button>
+                    {user.userType !== "ADMIN" && <button onClick={() => handleActivate(user.email)}>{user.active ? "Deactivate" : "Activate"}</button>}
                 </td>
             </tr>
           ))}

@@ -40,7 +40,7 @@ const Destinations = () => {
   useEffect(() => {
 
     fetchDestinations();
-  });
+  }, [jwt]);
 
   const handleEdit = (name) => {
     // Logika za uređivanje destinacije sa datim id-jem
@@ -67,6 +67,7 @@ const Destinations = () => {
   const handleAdd = () => {
     
     navigate('/add-destination');
+    //window.open('/article-platform', '_blank');
   }
 
 

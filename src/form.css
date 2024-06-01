@@ -19,7 +19,7 @@
 
 .form-form input, .form-form button{
     width: 100%;
-    padding: 12px; /* Adjust padding to match the button */
+    padding: 12px; 
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -42,7 +42,7 @@
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: vertical; /* Allow vertical resizing */
+    resize: vertical;
 }
 .error-message {
     color: #a11d2a;
