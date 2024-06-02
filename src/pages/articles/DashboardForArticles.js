@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../dashboard.css';
-import useAuthRedirect from '../hooks/useAuthRedirect';
+import '../../dashboard.css';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const DashboardForArticles = () => {
   const isLoggedIn = !!localStorage.getItem('jwt');
@@ -19,7 +19,7 @@ const DashboardForArticles = () => {
           <Link to="/most-read">Most Read</Link>
         </li>
         <li>
-          <Link to="/about-destination">About Destination</Link>
+          <Link to={"/about-destination/" + localStorage.getItem('destination')}>About {localStorage.getItem('destination')}</Link>
         </li>
 
       </ul>

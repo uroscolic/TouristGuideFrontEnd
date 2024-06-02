@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import api from '../utils/api'; // import your axios instance
-import '../table.css';
+import api from '../../utils/api'; // import your axios instance
+import '../../table.css';
 import { useNavigate } from 'react-router-dom';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 const destinationsPerPage = 5;
 
 
@@ -43,9 +43,12 @@ const Destinations = () => {
   }, [jwt]);
 
   const handleEdit = (name) => {
-    // Logika za uređivanje destinacije sa datim id-jem
     console.log(`Edit destination with name ${name}`);
     navigate(`/edit-destination/${name}`);
+  };
+  const handleDestinationClick = (name) => () => {
+    localStorage.setItem('destination', name);
+    navigate(`/about-destination/${name}`);
   };
 
   const handleDelete = async (name) => {
@@ -67,7 +70,6 @@ const Destinations = () => {
   const handleAdd = () => {
     
     navigate('/add-destination');
-    //window.open('/article-platform', '_blank');
   }
 
 
@@ -89,7 +91,7 @@ const Destinations = () => {
         <tbody>
           {paginatedDestinations.map(destination => (
             <tr key={destination.name}>
-              <td>{destination.name}</td>
+              <td onClick={handleDestinationClick(destination.name) } className = "td-click">{destination.name}</td>
               <td>{destination.description}</td>
               <td>
                 <button onClick={() => handleEdit(destination.name)}>Edit</button>

@@ -17,7 +17,7 @@
     max-width: 300px;
 }
 
-.form-form input, .form-form button{
+.form-form input, .form-form button, .form-form select{
     width: 100%;
     padding: 12px; 
     margin-bottom: 20px;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
-import '../table.css';
+import api from '../../utils/api';
+import '../../table.css';
 import { useNavigate } from 'react-router-dom';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 const usersPerPage = 5;
 
 

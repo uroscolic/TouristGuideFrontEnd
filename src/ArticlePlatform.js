@@ -1,5 +1,5 @@
 import './App.css';
-import DashboardForArticles from './pages/DashboardForArticles.js';
+import DashboardForArticles from './pages/articles/DashboardForArticles.js';
 
 
 const ArticlePlatform = () => {

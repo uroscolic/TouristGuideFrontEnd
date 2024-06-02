@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
-import '../table.css';
-import Pagination from './Pagination';
+import api from '../../utils/api';
+import '../../table.css';
+import Pagination from '../Pagination';
 
 const articlesPerPage = 5;
 

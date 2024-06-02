@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../utils/api'; // importuj axios instancu
-import '../form.css';
+import api from '../../utils/api';
+import '../../form.css';
 
 const NewDestination = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [error, setError] = useState(''); // Dodaj stanje za grešku
+  const [error, setError] = useState(''); 
   const navigate = useNavigate();
   const jwt = localStorage.getItem('jwt');
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+    
 
     try {
         const response = await api.post('/api/destinations', { name, description },{
@@ -32,9 +35,9 @@ const NewDestination = () => {
   };
 
   return (
-    <div className="form-container"> {/* Dodaj klasu za kontejner */}
+    <div className="form-container">
       <h2>New Destination</h2>
-      <form onSubmit={handleSubmit} className="form-form"> {/* Dodaj klasu za formu */}
+      <form onSubmit={handleSubmit} className="form-form">
         <input
           type="text"
           placeholder="Name"
@@ -50,7 +53,7 @@ const NewDestination = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <button type="submit">Add</button>
-        {error && <p className="error-message">{error}</p>} {/* Dodaj klasu za poruku o grešci */}
+        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

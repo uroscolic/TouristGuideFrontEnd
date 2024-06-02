@@ -106,6 +106,13 @@
 .pagination form button:hover {
   background-color: #0056b3;
 }
+.td-click{
+  cursor: pointer;
+  color: #447ab4;
+}
+.td-click:hover{
+  color:#004186;
+}
 
 
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import '../form.css';
+import '../../form.css';
 
 const EditUser = () => {
     const [name, setName] = useState('');
