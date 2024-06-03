@@ -51,7 +51,7 @@ const NewArticle = () => {
           
           setActivities(activitiesMap);
         } catch (err) {
-          setError('Error fetching destinations');
+          setError('Error fetching activities');
         }
       };
       useEffect(() => {
@@ -104,7 +104,6 @@ const NewArticle = () => {
 
     const handleAddActivity = async () => {
         console.log(activity);
-        console.log("Aaaaaaaaaaaaaaaaaaaaaaa");
         try {
             const response = await api.post('/api/activities', { 
                 name : activity,
@@ -121,7 +120,7 @@ const NewArticle = () => {
           if(error.response.status === 401)
             setError('Unauthorized!');
           else
-            setError('Error adding activity!');
+            setError('Invalid activity name!');
         console.log(error);
         }
     };

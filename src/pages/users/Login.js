@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import '../../form.css';
@@ -29,6 +29,12 @@ const Login = () => {
       setPassword('');
     }
   };
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+      navigate('/destinations');
+    }
+  }, [navigate]);
 
   return (
     <div className="form-container">

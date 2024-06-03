@@ -53,6 +53,7 @@ const ArticleWithId = () => {
     } catch (error) {
       if(error.response.status === 401)
         setError('Unauthorized!');
+      
     
     }
     setNewComment({author : '', text :''});

@@ -75,7 +75,7 @@ const EditArticle = () => {
           
           setActivities(activitiesMap);
         } catch (err) {
-          setError('Error fetching destinations');
+          setError('Error fetching activities');
         }
       };
       useEffect(() => {
@@ -112,7 +112,7 @@ const EditArticle = () => {
       if(error.response.status === 401)
         setError('Unauthorized!');
       else
-        setError('Error adding article!');
+        setError('Error editing article!');
     }
     };
     const handleDestinationChange = (event) => {

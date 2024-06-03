@@ -23,17 +23,17 @@ import ArticleWithId from './pages/articles/ArticleWithId';
 const App = () => {
 
   
-  const noDashboardRoutes = ['/front-page', '/most-read', '/about-destination', '/article-platform'];
-
+  const isLogged = localStorage.getItem('jwt');
 
   return (
     
   <Router>
-    
-    <Dashboard /> 
+    {localStorage.setItem('destination', '')}
+    <Dashboard />
     <DashboardForArticles />
 
     <Routes>
+
       <Route path="/" element={<Login />} />
       <Route path="/destinations" element={<Destinations />} />
       <Route path="/add-destination" element={<NewDestination />} />
