@@ -23,6 +23,21 @@ const Articles = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const fetchVisitArticles = async (id) => {
+    try {
+      const response = await api.put(`/api/articles/visit/${id}`, {},{
+          headers: {
+              'Authorization': `Bearer ${jwt}`
+          }
+      
+      });
+    } catch (err) {
+      if(err.message.includes('401'))
+        setError('Unauthorized!');
+    }
+  };
+
   const fetchArticles = async () => {
     try {
       const response = await api.get('/api/articles',{
@@ -67,8 +82,9 @@ const Articles = () => {
   }, [jwt]);
 
   const handleEdit = (id) => {
-    // Logika za uređivanje destinacije sa datim id-jem
+    
     console.log(`Edit article with id ${id}`);
+    
     navigate(`/edit-article/${id}`);
   };
 
@@ -89,8 +105,11 @@ const Articles = () => {
     }
   };
   const handleAdd = () => {
-    
     navigate('/add-article');
+  }
+  const handleClick = (id) => () => {
+    fetchVisitArticles(id);
+    navigate(`/article/${id}`);
   }
 
   if (error) {
@@ -112,8 +131,8 @@ const Articles = () => {
         </thead>
         <tbody>
           {paginatedArticles.map(article => (
-            <tr key={article.id}>
-                <td>{article.title}</td>
+            <tr key={article.id} >
+                <td className='td-click' onClick = {handleClick(article.id)}>{article.title} </td>
                 <td>{destinations[article.destinationId]}</td> 
                 <td>{article.text.substring(0, article.text.length > 50 ? 50 : article.text.length).concat("...")}</td>
                 <td>{article.date}</td>

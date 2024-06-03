@@ -59,11 +59,16 @@ const EditUser = () => {
         console.log(response.data);
         navigate('/users');
     } catch (error) {
-      if(error.message.includes('401'))
-        setError('Unauthorized!');
-      else
-        setError('User with that email already exists!');
-      setNewEmail('')
+       if(error.response.status === 401)
+            setError('Unauthorized!');
+        else if (error.response.status === 400) {
+            setError('Invalid user type!');
+            setUserType('');
+        }
+        else {
+            setError('User with that email already exists!');
+            setNewEmail('');
+        }
     }
   };
 

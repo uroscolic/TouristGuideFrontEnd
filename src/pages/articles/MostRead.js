@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import '../../table.css';
 import Pagination from '../Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const articlesPerPage = 5;
 
@@ -15,12 +16,26 @@ const MostRead = () => {
   const startIndex = (currentPage - 1) * articlesPerPage;
   const endIndex = startIndex + articlesPerPage;
   const paginatedArticles = articles.slice(startIndex, endIndex);
-
+  const navigate = useNavigate();
   const jwt = localStorage.getItem('jwt');
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const fetchVisitArticles = async (id) => {
+    try {
+      const response = await api.put(`/api/articles/visit/${id}`, {},{
+          headers: {
+              'Authorization': `Bearer ${jwt}`
+          }
+      
+      });
+    } catch (err) {
+      if(err.message.includes('401'))
+        setError('Unauthorized!');
+    }
+  };
+
   const fetchArticles = async () => {
     try {
       const response = await api.get('/api/articles/most-read',{
@@ -64,6 +79,10 @@ const MostRead = () => {
     fetchArticles();
   }, [jwt]);
 
+  const handleClick = (id) => () => {
+    fetchVisitArticles(id);
+    navigate(`/article/${id}`)
+  }
 
   if (error) {
     return <div>{error}</div>;
@@ -84,7 +103,7 @@ const MostRead = () => {
         <tbody>
           {paginatedArticles.map(article => (
             <tr key={article.id}>
-                <td>{article.title}</td>
+                <td className='td-click' onClick = {handleClick(article.id)}>{article.title}</td>
                 <td>{destinations[article.destinationId]}</td> 
                 <td>{article.text.substring(0, article.text.length > 50 ? 50 : article.text.length).concat("...")}</td>
                 <td>{article.date}</td>

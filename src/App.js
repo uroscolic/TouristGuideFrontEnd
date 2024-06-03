@@ -16,6 +16,9 @@ import NewArticle from './pages/articles/NewArticle';
 import EditArticle from './pages/articles/EditArticle';
 import ArticlesAboutDestination from './pages/articles/ArticlesAboutDestination';
 import DashboardForArticles from './pages/articles/DashboardForArticles';
+import ArticlesWithActivity from './pages/articles/ArticlesWithActivity';
+import ArticleWithId from './pages/articles/ArticleWithId';
+
 
 const App = () => {
 
@@ -44,7 +47,10 @@ const App = () => {
       <Route path="/most-read" element={<MostRead />} />
       <Route path="/articles" element={<Articles />} />
       <Route path="/add-article" element={<NewArticle />} />
-      <Route path="/edit-article/:id" element={<EditArticle />} />  
+      <Route path="/edit-article/:id" element={<EditArticle />} /> 
+      <Route path="/articles-with-activity/:id" element={<ArticlesWithActivity />} />
+      <Route path="/article/:id" element={<ArticleWithId />} />
+
       <Route path="*" element={<h1>Not Found</h1>} />
 
     </Routes>

@@ -80,7 +80,6 @@ const NewArticle = () => {
           }
       });
 
-        console.log(response.data);
         navigate('/articles');
     } catch (error) {
       if(error.response.status === 401)

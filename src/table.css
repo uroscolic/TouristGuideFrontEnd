@@ -25,6 +25,8 @@
   padding: 12px 15px;
   border: 1px solid #ddd;
   text-align: left;
+  word-wrap: break-word;
+  max-width: 500px;
 }
 
 .table-container th {
@@ -113,7 +115,16 @@
 .td-click:hover{
   color:#004186;
 }
-
+p, h1{
+  margin-left: 20%;
+  word-wrap: break-word;
+  max-width: 500px;
+  padding: 10px 20px;
+  color: #000000;
+}
+.article-text{
+  font-style: italic;
+}
 
 
 

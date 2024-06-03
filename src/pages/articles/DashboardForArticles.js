@@ -5,7 +5,7 @@ import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const DashboardForArticles = () => {
   const isLoggedIn = !!localStorage.getItem('jwt');
-
+  const hasDestination = !!localStorage.getItem('destination');
   useAuthRedirect();
   return (
     isLoggedIn && 
@@ -18,9 +18,10 @@ const DashboardForArticles = () => {
         <li>
           <Link to="/most-read">Most Read</Link>
         </li>
+        {hasDestination &&
         <li>
           <Link to={"/about-destination/" + localStorage.getItem('destination')}>About {localStorage.getItem('destination')}</Link>
-        </li>
+        </li>}
 
       </ul>
     </nav>

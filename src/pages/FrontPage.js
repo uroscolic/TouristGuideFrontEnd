@@ -61,11 +61,29 @@ const FrontPage = () => {
     }
   };
 
+  const fetchVisitArticles = async (id) => {
+    try {
+      const response = await api.put(`/api/articles/visit/${id}`, {},{
+          headers: {
+              'Authorization': `Bearer ${jwt}`
+          }
+      
+      });
+    } catch (err) {
+      if(err.message.includes('401'))
+        setError('Unauthorized!');
+    }
+  };
   useEffect(() => {
     fetchDestinations();
     fetchArticles();
   }, [jwt]);
 
+
+  const handleClick = (id) => () => {
+    fetchVisitArticles(id);
+    navigate(`/article/${id}`)
+  }
 
   if (error) {
     return <div>{error}</div>;
@@ -86,7 +104,7 @@ const FrontPage = () => {
         <tbody>
           {paginatedArticles.map(article => (
             <tr key={article.id}>
-                <td>{article.title}</td>
+                <td className='td-click' onClick = {handleClick(article.id)}>{article.title}</td>
                 <td>{destinations[article.destinationId]}</td> 
                 <td>{article.text.substring(0, article.text.length > 50 ? 50 : article.text.length).concat("...")}</td>
                 <td>{article.date}</td>

@@ -3,7 +3,7 @@ import api from '../../utils/api';
 import '../../table.css';
 import Pagination from '../Pagination';
 import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const articlesPerPage = 5;
 
@@ -17,7 +17,7 @@ const ArticlesAboutDestination = () => {
   const endIndex = startIndex + articlesPerPage;
   const paginatedArticles = articles.slice(startIndex, endIndex);
   const { name } = useParams();
-
+  const navigate = useNavigate();
   const jwt = localStorage.getItem('jwt');
 
   const handlePageChange = (page) => {
@@ -40,12 +40,28 @@ const ArticlesAboutDestination = () => {
         setError('Error fetching articles');
     }
   };
-
+  const fetchVisitArticles = async (id) => {
+    try {
+      const response = await api.put(`/api/articles/visit/${id}`, {},{
+          headers: {
+              'Authorization': `Bearer ${jwt}`
+          }
+      
+      });
+    } catch (err) {
+      if(err.message.includes('401'))
+        setError('Unauthorized!');
+    }
+  };
 
   useEffect(() => {
     fetchArticles();
   }, [jwt]);
 
+  const handleClick = (id) => () => {
+    fetchVisitArticles(id);
+    navigate(`/article/${id}`)
+  }
 
   if (error) {
     return <div>{error}</div>;
@@ -68,7 +84,7 @@ const ArticlesAboutDestination = () => {
         <tbody>
           {paginatedArticles.map(article => (
             <tr key={article.id}>
-                <td>{article.title}</td>
+                <td className='td-click' onClick = {handleClick(article.id)}>{article.title}</td>
                 <td>{name}</td> 
                 <td>{article.text.substring(0, article.text.length > 50 ? 50 : article.text.length).concat("...")}</td>
                 <td>{article.date}</td>

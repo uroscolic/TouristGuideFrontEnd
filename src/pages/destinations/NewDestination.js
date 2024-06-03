@@ -9,11 +9,9 @@ const NewDestination = () => {
   const [error, setError] = useState(''); 
   const navigate = useNavigate();
   const jwt = localStorage.getItem('jwt');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-    
 
     try {
         const response = await api.post('/api/destinations', { name, description },{
