@@ -49,7 +49,7 @@ const EditArticle = () => {
             }
         
         });
-        const destinationsMap = response.data.reduce((acc, destination) => {
+        const destinationsMap = response.data.destinations.reduce((acc, destination) => {
             acc[destination.id] = destination.name;
             return acc;
           }, {});

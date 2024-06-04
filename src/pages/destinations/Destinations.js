@@ -8,28 +8,27 @@ const destinationsPerPage = 5;
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(destinations.length / destinationsPerPage);
-  const startIndex = (currentPage - 1) * destinationsPerPage;
-  const endIndex = startIndex + destinationsPerPage;
-  const paginatedDestinations = destinations.slice(startIndex, endIndex);
-
   const jwt = localStorage.getItem('jwt');
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    fetchDestinations(page, destinationsPerPage);
   };
-  const fetchDestinations = async () => {
+  const fetchDestinations = async (page, size) => {
     try {
-      const response = await api.get('/api/destinations',{
+      const response = await api.get(`/api/destinations?page=${page}&size=${size}`,{
           headers: {
               'Authorization': `Bearer ${jwt}`
           }
       
       });
-      setDestinations(response.data);
+      setDestinations(response.data.destinations);
+      setTotalPages(response.data.totalPages);
     } catch (err) {
       if(err.message.includes('401'))
         setError('Unauthorized!');
@@ -39,7 +38,7 @@ const Destinations = () => {
   };
   useEffect(() => {
 
-    fetchDestinations();
+    fetchDestinations(currentPage, destinationsPerPage);
   }, [jwt]);
 
   const handleEdit = (name) => {
@@ -59,7 +58,7 @@ const Destinations = () => {
               'Authorization': `Bearer ${jwt}`
           }
       });
-      fetchDestinations();
+      fetchDestinations(currentPage, destinationsPerPage);
       if(destinations.length % destinationsPerPage === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
@@ -89,7 +88,7 @@ const Destinations = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedDestinations.map(destination => (
+          {destinations.map(destination => (
             <tr key={destination.name}>
               <td onClick={handleDestinationClick(destination.name) } className = "td-click">{destination.name}</td>
               <td>{destination.description}</td>

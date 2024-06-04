@@ -12,16 +12,13 @@ const Articles = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [destinations, setDestinations] = useState('');
+  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(articles.length / articlesPerPage);
-  const startIndex = (currentPage - 1) * articlesPerPage;
-  const endIndex = startIndex + articlesPerPage;
-  const paginatedArticles = articles.slice(startIndex, endIndex);
-
   const jwt = localStorage.getItem('jwt');
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    fetchArticles(page, articlesPerPage);
   };
 
   const fetchVisitArticles = async (id) => {
@@ -38,15 +35,16 @@ const Articles = () => {
     }
   };
 
-  const fetchArticles = async () => {
+  const fetchArticles = async (page, size) => {
     try {
-      const response = await api.get('/api/articles',{
+      const response = await api.get(`/api/articles?page=${page}&size=${size}`,{
           headers: {
               'Authorization': `Bearer ${jwt}`
           }
       
       });
-      setArticles(response.data);
+      setArticles(response.data.articles);
+      setTotalPages(response.data.totalPages);
       console.log(response.data);
     } catch (err) {
       if(err.message.includes('401'))
@@ -65,7 +63,7 @@ const Articles = () => {
     
     });
     console.log(response.data);
-    const destinationsMap = response.data.reduce((acc, destination) => {
+    const destinationsMap = response.data.destinations.reduce((acc, destination) => {
         acc[destination.id] = destination.name;
         return acc;
       }, {});
@@ -78,7 +76,7 @@ const Articles = () => {
 
   useEffect(() => {
     fetchDestinations();
-    fetchArticles();
+    fetchArticles(currentPage, articlesPerPage);
   }, [jwt]);
 
   const handleEdit = (id) => {
@@ -96,7 +94,7 @@ const Articles = () => {
               'Authorization': `Bearer ${jwt}`
           }
       });
-      fetchArticles();
+      fetchArticles(currentPage, articlesPerPage);
       if(articles.length % articlesPerPage === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
@@ -130,7 +128,7 @@ const Articles = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedArticles.map(article => (
+          {articles.map(article => (
             <tr key={article.id} >
                 <td className='td-click' onClick = {handleClick(article.id)}>{article.title} </td>
                 <td>{destinations[article.destinationId]}</td> 

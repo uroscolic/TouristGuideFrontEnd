@@ -71,6 +71,10 @@
   margin-top: 20px;
   text-align: center;
 }
+.link {
+  color: #447ab4;
+  text-decoration: none;
+}
 
 .pagination button {
   margin: 0 5px;

@@ -5,26 +5,27 @@ import Pagination from '../Pagination';
 import '../../table.css';
 import '../../form.css';
 
+
 const commentsPerPage = 5;
 
 const ArticleWithId = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [article, setArticle] = useState({});
   const [error, setError] = useState(null);
   const [destinations, setDestinations] = useState({});
+
   const [comments, setComments] = useState([]);
   const [activities, setActivities] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
   const [newComment, setNewComment] = useState({ author: '', text: '' });
   const jwt = localStorage.getItem('jwt');
 
-  const totalPages = Math.ceil(comments.length / commentsPerPage);
-  const startIndex = (currentPage - 1) * commentsPerPage;
-  const endIndex = startIndex + commentsPerPage;
-  const paginatedComments = comments.slice(startIndex, endIndex);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    fetchComments(page, commentsPerPage);
   };
 
   const handleInputChange = (e) => {
@@ -49,7 +50,7 @@ const ArticleWithId = () => {
             'Authorization': `Bearer ${jwt}`
         }
       });
-    fetchComments();
+    fetchComments(currentPage, commentsPerPage);
     } catch (error) {
       if(error.response.status === 401)
         setError('Unauthorized!');
@@ -80,7 +81,7 @@ const ArticleWithId = () => {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      const destinationsMap = response.data.reduce((acc, destination) => {
+      const destinationsMap = response.data.destinations.reduce((acc, destination) => {
         acc[destination.id] = destination.name;
         return acc;
       }, {});
@@ -107,24 +108,31 @@ const ArticleWithId = () => {
     }
   };
 
-  const fetchComments = async () => {
+  const fetchComments = async (page, size) => {
     try {
-      const response = await api.get(`/api/comments/article/${id}`, {
+      const response = await api.get(`/api/comments/article/${id}?page=${page}&size=${size}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      setComments(response.data);
+      setComments(response.data.comments);
+      setTotalPages(response.data.totalPages);
     } catch (err) {
       setError('Error fetching comments');
     }
   };
 
+  const handleClick = (id) => {
+    return () =>{
+      localStorage.setItem('activity',activities[id]);
+    };
+  }
+
   useEffect(() => {
     fetchArticle();
     fetchDestinations();
     fetchActivities();
-    fetchComments();
+    fetchComments(currentPage, commentsPerPage);
   }, [jwt]);
 
   if (error) {
@@ -137,9 +145,12 @@ const ArticleWithId = () => {
       <p>Author: {article.author} ({article.date})</p>
       <p>Destination: {destinations[article.destinationId]}</p>
       <p>
-        Activities:{' '}
-        {article.activities &&
-          article.activities.map((activityId) => activities[activityId]).join(', ')}
+        Activities:{' '} 
+      
+        {article.activities && article.activities.map(activityId => (
+          <a key={activityId} className='link' href={`/articles-with-activity/${activityId}`} onClick = {handleClick(activityId)}>{activities[activityId]} </a>
+        ))}
+         
       </p>
       <p className="article-text">{article.text}</p>
       <div className="table-container">
@@ -158,7 +169,7 @@ const ArticleWithId = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedComments.map((comment) => (
+                {comments.map((comment) => (
                   <tr key={comment.id}>
                     <td>{comment.author}</td>
                     <td>{comment.text}</td>

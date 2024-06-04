@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
+const Pagination = ({ currentPage, totalPages, handlePageChange}) => {
   return (
     <div className="pagination">
       <button

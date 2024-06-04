@@ -23,7 +23,6 @@ import ArticleWithId from './pages/articles/ArticleWithId';
 const App = () => {
 
   
-  const isLogged = localStorage.getItem('jwt');
 
   return (
     

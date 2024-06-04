@@ -11,27 +11,26 @@ const articlesPerPage = 5;
 const ArticlesAboutDestination = () => {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(articles.length / articlesPerPage);
-  const startIndex = (currentPage - 1) * articlesPerPage;
-  const endIndex = startIndex + articlesPerPage;
-  const paginatedArticles = articles.slice(startIndex, endIndex);
   const { name } = useParams();
   const navigate = useNavigate();
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const jwt = localStorage.getItem('jwt');
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    fetchArticles(page, articlesPerPage);
   };
-  const fetchArticles = async () => {
+  const fetchArticles = async (page, size) => {
     try {
-      const response = await api.get(`/api/articles/destination/${name}`,{
+      const response = await api.get(`/api/articles/destination/${name}?page=${page}&size=${size}`,{
           headers: {
               'Authorization': `Bearer ${jwt}`
           }
       
       });
-      setArticles(response.data);
+      setArticles(response.data.articles);
+      setTotalPages(response.data.totalPages);
       console.log(response.data);
     } catch (err) {
       if(err.message.includes('401'))
@@ -55,7 +54,7 @@ const ArticlesAboutDestination = () => {
   };
 
   useEffect(() => {
-    fetchArticles();
+    fetchArticles(currentPage, articlesPerPage);
   }, [jwt]);
 
   const handleClick = (id) => () => {
@@ -82,7 +81,7 @@ const ArticlesAboutDestination = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedArticles.map(article => (
+          {articles.map(article => (
             <tr key={article.id}>
                 <td className='td-click' onClick = {handleClick(article.id)}>{article.title}</td>
                 <td>{name}</td> 
