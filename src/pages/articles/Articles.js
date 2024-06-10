@@ -15,6 +15,7 @@ const Articles = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const jwt = localStorage.getItem('jwt');
+  const isLoggedIn = !!jwt;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -124,7 +125,7 @@ const Articles = () => {
             <th>Destination</th>
             <th>Text</th>
             <th>Date</th>
-            <th>Actions</th>
+            {isLoggedIn && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -134,10 +135,12 @@ const Articles = () => {
                 <td>{destinations[article.destinationId]}</td> 
                 <td>{article.text.substring(0, article.text.length > 50 ? 50 : article.text.length).concat("...")}</td>
                 <td>{article.date}</td>
-                <td>
-                    <button onClick={() => handleEdit(article.id)}>Edit</button>
-                    <button onClick={() => handleDelete(article.id)}>Delete</button>
-                </td>
+                {isLoggedIn &&
+                  <td>
+                      <button onClick={() => handleEdit(article.id)}>Edit</button>
+                      <button onClick={() => handleDelete(article.id)}>Delete</button>
+                  </td>
+                }
             </tr>
           ))}
         </tbody>
@@ -148,9 +151,11 @@ const Articles = () => {
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
-        <form>
-        <button onClick = {() => handleAdd()}>New Article</button>
-      </form>
+      {isLoggedIn &&
+          <form>
+          <button onClick = {() => handleAdd()}>New Article</button>
+        </form>
+      }
     </div>
     
   );

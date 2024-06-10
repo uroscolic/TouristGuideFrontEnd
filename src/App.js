@@ -8,14 +8,12 @@ import Users from './pages/users/Users';
 import EditUser from './pages/users/EditUser';
 import NewUser from './pages/users/NewUser';
 import Dashboard from './pages/Dashboard';
-import ArticlePlatform from './ArticlePlatform';
 import FrontPage from './pages/FrontPage';
 import MostRead from './pages/articles/MostRead';
 import Articles from './pages/articles/Articles';
 import NewArticle from './pages/articles/NewArticle';
 import EditArticle from './pages/articles/EditArticle';
 import ArticlesAboutDestination from './pages/articles/ArticlesAboutDestination';
-import DashboardForArticles from './pages/articles/DashboardForArticles';
 import ArticlesWithActivity from './pages/articles/ArticlesWithActivity';
 import ArticleWithId from './pages/articles/ArticleWithId';
 
@@ -27,9 +25,8 @@ const App = () => {
   return (
     
   <Router>
-    {localStorage.setItem('destination', '')}
+ 
     <Dashboard />
-    <DashboardForArticles />
 
     <Routes>
 
@@ -40,7 +37,6 @@ const App = () => {
       <Route path="/users" element={<Users />} />
       <Route path="/edit-user/:email" element={<EditUser />} />
       <Route path="/add-user" element={<NewUser />} />  
-      <Route path="/article-platform" element={<ArticlePlatform />} />
       <Route path="/about-destination/:name" element={<ArticlesAboutDestination />} />
       <Route path="/front-page" element={<FrontPage />} />
       <Route path="/most-read" element={<MostRead />} />

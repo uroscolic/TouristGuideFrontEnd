@@ -18,14 +18,19 @@ const Dashboard = () => {
       localStorage.removeItem('name');
       navigate('/')
   };
+  const hasDestination = !!localStorage.getItem('destination');
 
 
-  useAuthRedirect();
   return (
-    isLoggedIn && 
+    <>
     <nav>
       <ul>
-        
+        {
+          !isLoggedIn &&
+          <li>
+            <Link to="/">Login</Link>
+          </li>
+        }
         <li>
           <Link to="/destinations">Destinations</Link>
         </li>
@@ -36,21 +41,42 @@ const Dashboard = () => {
         <li>
           <Link to="/users">Users</Link>
         </li>
+        
         }
         <li>
-          <span> | </span>
+          <Link to="/front-page">Home</Link>
         </li>
-        <li> 
-          <button className='userProfile'> {name.substring(0,1)} </button>
-          <span>{name}</span>
 
-        </li>
         <li>
-          <button onClick={() => handleLogOut()}> Log out</button>
+          <Link to="/most-read">Most Read</Link>
         </li>
+        { (hasDestination &&
+          <li>
+            <Link to={"/about-destination/" + localStorage.getItem('destination')}>About {localStorage.getItem('destination')}</Link>
+          </li>
+        )}
+        { isLoggedIn &&
+          <li>
+            <span> | </span>
+          </li>
+        }
+        {isLoggedIn &&
+          <li> 
+            <button className='userProfile'> {name.substring(0,1)} </button>
+            <span>{name}</span>
 
+          </li>
+        }
+
+        {isLoggedIn &&
+          <li>
+            <button onClick={() => handleLogOut()}> Log out</button>
+          </li>
+        }
+         
       </ul>
     </nav>
+    </>
   );
 };
 

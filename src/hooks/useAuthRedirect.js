@@ -6,7 +6,7 @@ const useAuthRedirect = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!localStorage.getItem('jwt')|| localStorage.getItem('jwt') === 'undefined'){
+    if (!localStorage.getItem('jwt') || localStorage.getItem('jwt') === 'undefined'){
       navigate('/');
     }
   }, [navigate]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../utils/api'; // import your axios instance
+import api from '../../utils/api';
 import '../../table.css';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../Pagination';
@@ -13,6 +13,7 @@ const Destinations = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const jwt = localStorage.getItem('jwt');
+  const isLoggedIn = !!jwt;
 
 
   const handlePageChange = (page) => {
@@ -84,7 +85,7 @@ const Destinations = () => {
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Actions</th>
+            {isLoggedIn && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -92,10 +93,12 @@ const Destinations = () => {
             <tr key={destination.name}>
               <td onClick={handleDestinationClick(destination.name) } className = "td-click">{destination.name}</td>
               <td>{destination.description}</td>
-              <td>
-                <button onClick={() => handleEdit(destination.name)}>Edit</button>
-                <button onClick={() => handleDelete(destination.name)}>Delete</button>
-              </td>
+              {isLoggedIn && 
+                <td>
+                  <button onClick={() => handleEdit(destination.name)}>Edit</button>
+                  <button onClick={() => handleDelete(destination.name)}>Delete</button>
+                </td>
+              }
             </tr>
           ))}
         </tbody>
@@ -105,9 +108,11 @@ const Destinations = () => {
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
-      <form>
-        <button onClick = {() => handleAdd()}>New Destination</button>
-      </form>
+      {isLoggedIn &&
+        <form>
+          <button onClick = {() => handleAdd()}>New Destination</button>
+        </form>
+      }
     </div>
     
   );
