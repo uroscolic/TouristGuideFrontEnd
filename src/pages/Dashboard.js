@@ -16,6 +16,7 @@ const Dashboard = () => {
       localStorage.removeItem('jwt');
       localStorage.removeItem('userType');
       localStorage.removeItem('name');
+      localStorage.removeItem('destination');
       navigate('/')
   };
   const hasDestination = !!localStorage.getItem('destination');
